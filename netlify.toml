@@ -1,8 +1,8 @@
 [build]
-  # Build command (not needed for static site)
-  command = ""
-  # Publish directory (all files in root)
-  publish = "."
+  # Build command to inject environment variables
+  command = "node build-for-netlify.js"
+  # Publish directory (build output)
+  publish = "build"
   # Functions directory (if we add serverless functions later)
   functions = "functions"
 
