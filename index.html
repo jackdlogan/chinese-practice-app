@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Question Practice App</title>
+    <meta name="description" content="Practice Chinese speaking with AI-powered feedback and speech recognition">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Chinese Question Practice App</h1>
+            <p class="subtitle">Practice Chinese speaking with AI-powered feedback</p>
+        </header>
+
+        <!-- Setup Phase -->
+        <section id="setup-section" class="setup-section">
+            <div class="setup-container">
+                <h2>Enter Practice Questions</h2>
+                <p class="setup-description">Enter Chinese questions you want to practice, one question per line:</p>
+                
+                <div class="input-group">
+                    <label for="questions-input" class="input-label">Question List:</label>
+                    <textarea 
+                        id="questions-input" 
+                        class="questions-textarea" 
+                        placeholder="Example:&#10;你叫什么名字？&#10;你住在哪里？&#10;你喜欢什么运动？&#10;今天天气怎么样？"
+                        rows="8"
+                        aria-describedby="questions-help"
+                    ></textarea>
+                    <div id="questions-help" class="help-text">
+                        Enter one question per line, supports Chinese punctuation
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="start-practice" class="btn btn-primary" disabled>
+                        <span class="btn-icon">🎯</span>
+                        Start Practice
+                    </button>
+                    <button id="clear-questions" class="btn btn-secondary">
+                        <span class="btn-icon">🗑️</span>
+                        Clear Questions
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Phase -->
+        <section id="practice-section" class="practice-section hidden">
+            <div class="practice-container">
+                <!-- Progress Indicator -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="current-question-number">1</span> / <span id="total-questions">0</span>
+                    </div>
+                </div>
+
+                <!-- Question Display -->
+                <div class="question-container">
+                    <h2 id="current-question" class="question-text"></h2>
+                    <div class="question-controls">
+                        <button id="play-question" class="btn btn-icon-only" aria-label="Play Question">
+                            <span class="icon">🔊</span>
+                        </button>
+                        <button id="translate-question" class="btn btn-secondary" aria-label="Translate Question">
+                            <span class="btn-icon">🌐</span>
+                            Translate
+                        </button>
+                        <button id="next-question" class="btn btn-secondary" aria-label="Next Question">
+                            <span class="btn-icon">⏭️</span>
+                            Next Question
+                        </button>
+                    </div>
+                    <div id="translation-display" class="translation-display hidden">
+                        <h4>English Translation:</h4>
+                        <p id="question-translation" class="question-translation"></p>
+                    </div>
+                </div>
+
+                <!-- Answer Section -->
+                <div class="answer-section">
+                    <div class="answer-status">
+                        <div id="listening-indicator" class="listening-indicator hidden">
+                            <div class="pulse-dot"></div>
+                            <span>Listening to your speech...</span>
+                        </div>
+                        <div id="processing-indicator" class="processing-indicator hidden">
+                            <div class="spinner"></div>
+                            <span>Processing your answer...</span>
+                        </div>
+                    </div>
+
+                    <div class="answer-controls">
+                        <button id="start-listening" class="btn btn-primary">
+                            <span class="btn-icon">🎤</span>
+                            Start Answer
+                        </button>
+                        <button id="stop-listening" class="btn btn-danger hidden">
+                            <span class="btn-icon">⏹️</span>
+                            Stop Recording
+                        </button>
+                    </div>
+
+                    <div id="answer-display" class="answer-display hidden">
+                        <h3>Your Answer:</h3>
+                        <p id="user-answer" class="user-answer"></p>
+                    </div>
+                </div>
+
+                <!-- Evaluation Section -->
+                <div id="evaluation-section" class="evaluation-section hidden">
+                    <div class="evaluation-header">
+                        <h3>AI Evaluation</h3>
+                        <div id="evaluation-badge" class="evaluation-badge"></div>
+                    </div>
+                    
+                    <div id="evaluation-content" class="evaluation-content">
+                        <div id="evaluation-feedback" class="evaluation-feedback"></div>
+                        <div id="example-answer" class="example-answer hidden">
+                            <h4>Example Answer:</h4>
+                            <p id="example-text"></p>
+                        </div>
+                    </div>
+
+                    <div class="evaluation-actions">
+                        <button id="try-again" class="btn btn-secondary">
+                            <span class="btn-icon">🔄</span>
+                            Try Again
+                        </button>
+                        <button id="continue-practice" class="btn btn-primary">
+                            <span class="btn-icon">➡️</span>
+                            Continue Practice
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Messages -->
+        <div id="error-container" class="error-container hidden">
+            <div class="error-message">
+                <span id="error-text"></span>
+                <button id="close-error" class="error-close">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Environment Variables (can be injected by server) -->
+    <script>
+        // Environment variables can be injected here by the server
+        window.env = window.env || {};
+        // Example: window.env.ELEVENLABS_API_KEY = 'your-key-here';
+    </script>
+    
+    <script src="config.js"></script>
+    <script src="elevenlabs-service.js"></script>
+    <script src="openai-service.js"></script>
+    <script src="google-translation-service.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

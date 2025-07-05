@@ -1,0 +1,32 @@
+{
+  "name": "chinese-practice-app",
+  "version": "1.0.0",
+  "description": "A web-based Chinese language practice app with speech recognition, TTS, and AI evaluation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "npx serve .",
+    "setup": "node setup-env.js",
+    "deploy": "node deploy-to-netlify.js"
+  },
+  "keywords": [
+    "chinese",
+    "language-learning",
+    "speech-recognition",
+    "text-to-speech",
+    "ai-evaluation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
